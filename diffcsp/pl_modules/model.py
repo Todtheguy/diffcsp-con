@@ -131,8 +131,12 @@ class CrystGNN_Supervise(BaseModule):
                 f'{prefix}_angles_mard': angles_mard,
                 f'{prefix}_volumes_mard': volumes_mard,
             })
-        return log_dict, loss
+        # return log_dict, loss
 
+        if prefix == 'val':
+            log_dict['val_loss'] = loss
+        
+        return log_dict, loss
 
 
 @hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
