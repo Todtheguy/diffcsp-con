@@ -139,7 +139,7 @@ class CrystGNN_Supervise(BaseModule):
         return log_dict, loss
 
 
-@hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
+@hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default", version_base=None)
 def main(cfg: omegaconf.DictConfig):
     model: pl.LightningModule = hydra.utils.instantiate(
         cfg.model,

@@ -18,6 +18,7 @@ dependencies:
   - pip
   - tqdm==4.66.2
   - matminer
+  - pyarrow
   # Additional dependencies
   - conda-forge::yaml==0.2.5
   - pyg::pyg==2.4.0
