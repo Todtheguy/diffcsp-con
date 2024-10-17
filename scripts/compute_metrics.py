@@ -35,7 +35,7 @@ from eval_utils import (
     load_config, load_data, get_crystals_list, prop_model_eval, compute_cov)
 
 CrystalNNFP = CrystalNNFingerprint.from_preset("ops")
-CompFP = ElementProperty.from_preset('magpie', input_nan=True)
+CompFP = ElementProperty.from_preset('magpie', impute_nan=True)
 
 Percentiles = {
     'mp20': np.array([-3.17562208, -2.82196882, -2.52814761]),
