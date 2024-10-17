@@ -24,6 +24,7 @@ import pickle
 import sys
 import warnings
 
+warnings.filterwarnings("ignore", message="Issues encountered while parsing CIF")
 warnings.filterwarnings("ignore", message="No oxidation states specified on sites")
 warnings.filterwarnings("ignore", message="CrystalNN: cannot locate an appropriate radius")
 
