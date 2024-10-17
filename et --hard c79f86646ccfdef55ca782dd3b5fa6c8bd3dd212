@@ -1,0 +1,191 @@
+[33mcommit 2d3c12500ee12d265a94e4d2ee7ea33c1ee064c7[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Karishma Thakrar <kthakrar3@gatech.edu>
+Date:   Thu Oct 17 00:22:03 2024 -0400
+
+    Fix device mismatch in forward method by ensuring all tensors are on the same device
+
+[33mcommit 07008c7a7779b2f328aed2740fba483eea62a004[m
+Author: Karishma Thakrar <kthakrar3@gatech.edu>
+Date:   Thu Oct 17 00:17:42 2024 -0400
+
+    Fix device mismatch in gen_edges for frac_coords and fc_edges
+
+[33mcommit bebbaf41147d90f61a051c65c7312f77881a76f8[m
+Author: Karishma Thakrar <kthakrar3@gatech.edu>
+Date:   Thu Oct 17 00:14:53 2024 -0400
+
+    Fix device mismatch in gen_edges function
+
+[33mcommit 524936d0b599849686453d51a7b6507c06e9c6c0[m
+Author: Karishma Thakrar <kthakrar3@gatech.edu>
+Date:   Thu Oct 17 00:05:36 2024 -0400
+
+    Updated evalute.py with logging of evaluation metrics using pre-trained model checkpoints
+
+[33mcommit c79f86646ccfdef55ca782dd3b5fa6c8bd3dd212[m
+Author: Karishma Thakrar <kthakrar3@atl1-1-03-010-20-0.pace.gatech.edu>
+Date:   Wed Oct 16 23:56:41 2024 -0400
+
+    adjusted evaluation script to include absolute path
+
+[33mcommit 4a394d0f2b8659a4e28b21f1f5f14e986cdea184[m
+Author: Karishma Thakrar <kthakrar3@login-ice-3.pace.gatech.edu>
+Date:   Mon Oct 14 16:41:42 2024 -0400
+
+    Updated env variables
+
+[33mcommit b9f61420b03b3b8f80689e21c45e723bd114df02[m
+Author: Karishma Thakrar <kthakrar3@gatech.edu>
+Date:   Mon Oct 14 16:22:27 2024 -0400
+
+    Fixed configure_optimizers() function to include the frequency key
+
+[33mcommit 1c74a6a6d8cfb856318df8a57f3dadad41cbe9a3[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Karishma Thakrar <kthakrar3@gatech.edu>
+Date:   Mon Oct 14 16:05:07 2024 -0400
+
+    Changed compute_stats to ensure val_loss is properly logged
+
+[33mcommit fe0192f6aae0d7966ccecde9f55799874b8ee1eb[m
+Author: Karishma Thakrar <kthakrar3@atl1-1-03-011-3-0.pace.gatech.edu>
+Date:   Fri Oct 11 20:25:45 2024 -0400
+
+    initial run after syncing
+
+[33mcommit 83b3f4e053adac33204c3f4cd1c6dc401e41b1c5[m
+Author: Karishma Thakrar <kthakrar3@login-ice-4.pace.gatech.edu>
+Date:   Fri Oct 11 19:15:03 2024 -0400
+
+    Update .gitignore to include necessary paths and exclusions
+
+[33mcommit fc57c09bdb06ca415ef7a252393c77afa50d1eff[m
+Author: Karishma Thakrar <kthakrar3@login-ice-4.pace.gatech.edu>
+Date:   Fri Oct 11 18:49:36 2024 -0400
+
+    Initialize repo and add .gitignore
+
+[33mcommit 7121d159826efa2ba9500bf299250d96da37f146[m
+Author: jiaor17 <jiaor21@mails.tsinghua.edu.cn>
+Date:   Sat Apr 27 11:45:09 2024 +0800
+
+    Update optimization codes for flexible sampling size
+
+[33mcommit 7225cc293b6c7d683c307a0cafa9f66a63c2802a[m
+Author: jiaor17 <42726846+jiaor17@users.noreply.github.com>
+Date:   Thu Mar 7 21:12:59 2024 +0800
+
+    Update README.md
+
+[33mcommit fd6f48cef306193c0fb678db785424abcdad6dfd[m
+Author: jiaor17 <jiaor21@mails.tsinghua.edu.cn>
+Date:   Mon Feb 5 16:32:50 2024 +0800
+
+    optimization
+
+[33mcommit f617839d43b930e0d77084fc6ab3d95d2d959926[m
+Author: jiaor17 <jiaor21@mails.tsinghua.edu.cn>
+Date:   Mon Feb 5 15:46:12 2024 +0800
+
+    optimization
+
+[33mcommit ac10bd43214eed4871f0a157b47264a8b833e5a0[m
+Author: jiaor17 <jiaor21@mails.tsinghua.edu.cn>
+Date:   Sun Feb 4 06:58:00 2024 +0800
+
+    fix prop models
+
+[33mcommit ee131b03a1c6211828e8054d837caa8f1a980c3e[m
+Author: jiaor17 <42726846+jiaor17@users.noreply.github.com>
+Date:   Wed Dec 13 00:14:49 2023 +0800
+
+    Update README.md
+
+[33mcommit f1628492dd9867807cad864d0f15adb1b76b36d2[m
+Author: jiaor17 <42726846+jiaor17@users.noreply.github.com>
+Date:   Wed Dec 13 00:13:29 2023 +0800
+
+    Update README.md
+
+[33mcommit 1db96b57d50ba7ffdad237d5c2c276955ee44d18[m
+Author: jiaor17 <jiaor21@mails.tsinghua.edu.cn>
+Date:   Sun Dec 10 20:29:23 2023 +0800
+
+    eval utils
+
+[33mcommit 044458ed78f4f77cf32d1fde5a48270946438f38[m
+Author: jiaor17 <jiaor21@mails.tsinghua.edu.cn>
+Date:   Sat Dec 2 09:59:10 2023 +0800
+
+    support
+
+[33mcommit 11b0582e3ce5935d5c2128a4e1fda2800acf6f1f[m
+Author: jiaor17 <jiaor21@mails.tsinghua.edu.cn>
+Date:   Mon Nov 6 15:31:55 2023 +0800
+
+    fix bugs in compute metrics
+
+[33mcommit fdea6b6df8872fa190397fbbec3c26f1fea08f19[m
+Author: jiaor17 <jiaor21@mails.tsinghua.edu.cn>
+Date:   Tue Oct 31 15:20:33 2023 +0800
+
+    fix pred type
+
+[33mcommit f5916020e8142936cb7eb8f98933762e041c6acf[m
+Author: jiaor17 <jiaor21@mails.tsinghua.edu.cn>
+Date:   Tue Oct 31 12:04:26 2023 +0800
+
+    change dataset name
+
+[33mcommit 16aa2fec71afda57d2bd51d2007e15a93e6175a4[m
+Author: jiaor17 <jiaor21@mails.tsinghua.edu.cn>
+Date:   Fri Oct 27 19:13:00 2023 +0800
+
+    cr
+
+[33mcommit b1ce1f172f2e43ddce01e2054dbacdd1a870b391[m
+Author: jiaor17 <42726846+jiaor17@users.noreply.github.com>
+Date:   Fri Oct 27 06:09:36 2023 -0500
+
+    Create LICENSE
+
+[33mcommit 62f3c7d11c8f0c01e178341e24938805a7d7c7f1[m
+Author: jiaor17 <jiaor21@mails.tsinghua.edu.cn>
+Date:   Fri Oct 27 19:05:11 2023 +0800
+
+    cr
+
+[33mcommit 4e9172509f8109b11ad96c376a213d91ae7ed1b0[m
+Author: jiaor17 <42726846+jiaor17@users.noreply.github.com>
+Date:   Wed Sep 20 20:00:13 2023 +0800
+
+    Update README.md
+
+[33mcommit 948026ac2ddd152e697424b9fa1582960a789804[m
+Author: jiaor17 <42726846+jiaor17@users.noreply.github.com>
+Date:   Wed Sep 20 19:59:58 2023 +0800
+
+    Update README.md
+
+[33mcommit e7521ef72ca93ceae773521b57acb3a86659635c[m
+Author: jiaor17 <42726846+jiaor17@users.noreply.github.com>
+Date:   Thu May 25 17:57:57 2023 +0800
+
+    Update README.md
+
+[33mcommit 12dc714219414c02140d50aa6f74d35407f29926[m
+Author: jiaor17 <jiaor21@mails.tsinghua.edu.cn>
+Date:   Tue May 23 16:14:45 2023 +0800
+
+    update
+
+[33mcommit e0b8bd608327dbe3791d5525ffd0402ff2fdd53d[m
+Author: jiaor17 <jiaor21@mails.tsinghua.edu.cn>
+Date:   Tue May 23 16:08:04 2023 +0800
+
+    update
+
+[33mcommit 5ba4498c4ac63d417a4d8405bdb7083fc2d0e208[m
+Author: jiaor17 <42726846+jiaor17@users.noreply.github.com>
+Date:   Tue May 23 15:46:40 2023 +0800
+
+    Initial commit

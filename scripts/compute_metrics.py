@@ -22,6 +22,11 @@ from pyxtal import pyxtal
 import pickle
 
 import sys
+import warnings
+
+warnings.filterwarnings("ignore", message="No oxidation states specified on sites")
+warnings.filterwarnings("ignore", message="CrystalNN: cannot locate an appropriate radius")
+
 sys.path.append('.')
 
 from eval_utils import (
