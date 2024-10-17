@@ -165,7 +165,8 @@ singlerun/
 wandb/
 runs/
 clean/
-pretrained_checkpoints/
+pretrained_checkpoints/eval_diff.pt
+pretrained_checkpoints/last.ckpt
 
 # Large file exceptions
 data/mp_20/train_ori.pt
