@@ -385,10 +385,12 @@ def main(args):
     cfg = load_config(args.root_path)
     eval_model_name = cfg.data.eval_model_name
 
+    num_cpus = max(1, os.cpu_count() - 1)
+
     if 'opt' in args.tasks:
         opt_file_path = get_file_paths(args.root_path, 'opt', args.label)
         crys_array_list, _ = get_crystal_array_list(opt_file_path)
-        opt_crys = p_map(lambda x: Crystal(x), crys_array_list, num_cpus=0, disable=True)
+        opt_crys = p_map(lambda x: Crystal(x), crys_array_list, num_cpus=num_cpus, disable=True)
 
         opt_evaluator = OptEval(opt_crys, eval_model_name=eval_model_name)
         opt_metrics = opt_evaluator.get_metrics()
@@ -399,14 +401,14 @@ def main(args):
         gen_file_path = get_file_paths(args.root_path, 'gen', args.label)
         recon_file_path = get_file_paths(args.root_path, 'recon', args.label)
         crys_array_list, _ = get_crystal_array_list(gen_file_path, batch_idx = -2)
-        gen_crys = p_map(lambda x: Crystal(x), crys_array_list, num_cpus=0, disable=True)
+        gen_crys = p_map(lambda x: Crystal(x), crys_array_list, num_cpus=num_cpus, disable=True)
         if args.gt_file != '':
             csv = pd.read_csv(args.gt_file)
-            gt_crys = p_map(get_gt_crys_ori, csv['cif'], num_cpus=0, disable=True)
+            gt_crys = p_map(get_gt_crys_ori, csv['cif'], num_cpus=num_cpus, disable=True)
         else:
             _, true_crystal_array_list = get_crystal_array_list(
                 recon_file_path)
-            gt_crys = p_map(lambda x: Crystal(x), true_crystal_array_list, num_cpus=0, disable=True)
+            gt_crys = p_map(lambda x: Crystal(x), true_crystal_array_list, num_cpus=num_cpus, disable=True)
         gen_evaluator = GenEval(
             gen_crys, gt_crys, eval_model_name=eval_model_name)
         gen_metrics = gen_evaluator.get_metrics()
@@ -421,17 +423,17 @@ def main(args):
             recon_file_path, batch_idx = batch_idx)
         if args.gt_file != '':
             csv = pd.read_csv(args.gt_file)
-            gt_crys = p_map(get_gt_crys_ori, csv['cif'], num_cpus=0, disable=True)
+            gt_crys = p_map(get_gt_crys_ori, csv['cif'], num_cpus=num_cpus, disable=True)
         else:
-            gt_crys = p_map(lambda x: Crystal(x), true_crystal_array_list, num_cpus=0, disable=True)
+            gt_crys = p_map(lambda x: Crystal(x), true_crystal_array_list, num_cpus=num_cpus, disable=True)
 
         if not args.multi_eval:
-            pred_crys = p_map(lambda x: Crystal(x), crys_array_list, num_cpus=0, disable=True)
+            pred_crys = p_map(lambda x: Crystal(x), crys_array_list, num_cpus=num_cpus, disable=True)
         else:
             pred_crys = []
             for i in range(len(crys_array_list)):
                 print(f"Processing batch {i}")
-                pred_crys.append(p_map(lambda x: Crystal(x), crys_array_list[i]), num_cpus=0, disable=True)   
+                pred_crys.append(p_map(lambda x: Crystal(x), crys_array_list[i]), num_cpus=num_cpus, disable=True)   
 
         if args.multi_eval:
             rec_evaluator = RecEvalBatch(pred_crys, gt_crys)
