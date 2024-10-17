@@ -17,6 +17,7 @@ dependencies:
   - pandas==2.2.0
   - pip
   - tqdm==4.66.2
+  - matminer
   # Additional dependencies
   - conda-forge::yaml==0.2.5
   - pyg::pyg==2.4.0
