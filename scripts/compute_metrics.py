@@ -399,14 +399,14 @@ def main(args):
         gen_file_path = get_file_paths(args.root_path, 'gen', args.label)
         recon_file_path = get_file_paths(args.root_path, 'recon', args.label)
         crys_array_list, _ = get_crystal_array_list(gen_file_path, batch_idx = -2)
-        gen_crys = p_map(lambda x: Crystal(x), crys_array_list)
+        gen_crys = p_map(lambda x: Crystal(x), crys_array_list, num_cpus=0, disable=True)
         if args.gt_file != '':
             csv = pd.read_csv(args.gt_file)
-            gt_crys = p_map(get_gt_crys_ori, csv['cif'])
+            gt_crys = p_map(get_gt_crys_ori, csv['cif'], num_cpus=0, disable=True)
         else:
             _, true_crystal_array_list = get_crystal_array_list(
                 recon_file_path)
-            gt_crys = p_map(lambda x: Crystal(x), true_crystal_array_list)
+            gt_crys = p_map(lambda x: Crystal(x), true_crystal_array_list, num_cpus=0, disable=True)
         gen_evaluator = GenEval(
             gen_crys, gt_crys, eval_model_name=eval_model_name)
         gen_metrics = gen_evaluator.get_metrics()
