@@ -165,6 +165,7 @@ singlerun/
 wandb/
 runs/
 clean/
+pretrained_checkpoints/
 
 # Large file exceptions
 data/mp_20/train_ori.pt
