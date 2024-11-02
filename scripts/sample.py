@@ -25,8 +25,8 @@ import yaml
 import torch
 from omegaconf import OmegaConf
 
-import yaml
 from pathlib import Path
+import argparse
 
 chemical_symbols = [
     # 0
@@ -165,48 +165,40 @@ def get_pymatgen(crystal_array):
 #         else:
 #             print(f"{i+1} Error Structure.")
 
-config_path = Path("config.yaml")
-if config_path.exists():
-    with open(config_path, "r") as file:
-        config = yaml.safe_load(file)
-    args.model_path = config["model"]["model_path"]
-    args.save_path = config["model"]["save_path"]
-    args.formula = config["model"]["formula"]
-    args.num_evals = config["model"].get("num_evals", 1)
-    args.batch_size = config["model"].get("batch_size", 500)
-    args.step_lr = config["model"].get("step_lr", 1e-5)
-else:
-    raise FileNotFoundError("config.yaml not found.")
-
 def main():
-    model_path = config.model.model_path
-    save_path = config.model.save_path
+    config_path = Path("config.yaml")
+    if config_path.exists():
+        with open(config_path, "r") as file:
+            config = yaml.safe_load(file)
+    else:
+        raise FileNotFoundError("config.yaml not found. Please ensure it's in the script directory.")
+
+    model_path = config["model"]["model_path"]
+    save_path = config["model"]["save_path"]
+    formula = config["model"]["formula"]
+    num_evals = config["model"].get("num_evals", 1)
+    batch_size = config["model"].get("batch_size", 500)
+    step_lr = config["model"].get("step_lr", 1e-5)
+
     model, _, cfg = load_model(model_path, load_data=False)
-
     model.keep_lattice = True 
-
-    lengths = torch.tensor(config.model.lattice.lengths) if model.keep_lattice else None
-    angles = torch.tensor(config.model.lattice.angles) if model.keep_lattice else None
 
     if torch.cuda.is_available():
         model.to('cuda')
 
-    tar_dir = os.path.join(save_path, config.model.formula)
+    tar_dir = os.path.join(save_path, formula)
     os.makedirs(tar_dir, exist_ok=True)
 
     print('Evaluate the diffusion model.')
+    test_set = SampleDataset(formula, num_evals)
+    test_loader = DataLoader(test_set, batch_size=min(batch_size, num_evals))
 
-    test_set = SampleDataset(config.model.formula, config.model.num_evals)
-    test_loader = DataLoader(test_set, batch_size=min(config.model.batch_size, config.model.num_evals))
-
-    start_time = time.time()
-    (frac_coords, atom_types, lattices, lengths, angles, num_atoms) = diffusion(test_loader, model, config.model.step_lr)
-
+    (frac_coords, atom_types, lattices, lengths, angles, num_atoms) = diffusion(test_loader, model, step_lr)
     crystal_list = get_crystals_list(frac_coords, atom_types, lengths, angles, num_atoms)
     structure_list = p_map(get_pymatgen, crystal_list)
 
     for i, structure in enumerate(structure_list):
-        tar_file = os.path.join(tar_dir, f"{config.model.formula}_{i+1}.cif")
+        tar_file = os.path.join(tar_dir, f"{formula}_{i+1}.cif")
         if structure is not None:
             writer = CifWriter(structure)
             writer.write_file(tar_file)
