@@ -185,7 +185,8 @@ class CSPDiffusion(BaseModule):
 
             # step_size = step_lr * (sigma_x / self.sigma_scheduler.sigma_begin) ** 2
             # step_size = step_lr * (sigma_x.item() / self.sigma_scheduler.sigma_begin.item()) ** 2
-            step_size = step_lr * ((sigma_x / self.sigma_scheduler.sigma_begin) ** 2)
+            # step_size = step_lr * ((sigma_x / self.sigma_scheduler.sigma_begin) ** 2)
+            step_size = step_lr * ((sigma_x[0] / self.sigma_scheduler.sigma_begin[0]) ** 2) if sigma_x.ndim > 0 else step_lr * ((sigma_x / self.sigma_scheduler.sigma_begin) ** 2)
             # step_size = step_lr / (sigma_norm * (self.sigma_scheduler.sigma_begin) ** 2)
             std_x = torch.sqrt(2 * step_size)
 
