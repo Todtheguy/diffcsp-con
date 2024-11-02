@@ -19,6 +19,7 @@ from diffcsp.common.constants import CompScalerMeans, CompScalerStds
 from diffcsp.common.data_utils import StandardScaler, chemical_symbols
 from diffcsp.pl_data.dataset import TensorCrystDataset
 from diffcsp.pl_data.datamodule import worker_init_fn
+from diffcsp.pl_modules.diffusion import CSPDiffusion  # Correctly imported from its location
 
 from torch_geometric.data import DataLoader
 
@@ -95,13 +96,7 @@ def load_model(model_path, load_data=False, testing=True):
     model_path = Path(model_path).resolve()
     with initialize_config_dir(str(model_path)):
         cfg = compose(config_name='hparams')
-        model = hydra.utils.instantiate(
-            cfg.model,
-            optim=cfg.optim,
-            data=cfg.data,
-            logging=cfg.logging,
-            _recursive_=False,
-        )
+        
         ckpts = list(model_path.glob('*.ckpt'))
         if len(ckpts) > 0:
             ckpt = None
@@ -112,13 +107,17 @@ def load_model(model_path, load_data=False, testing=True):
                 ckpt_epochs = np.array(
                     [int(ckpt.parts[-1].split('-')[0].split('=')[1]) for ckpt in ckpts if 'last' not in ckpt.parts[-1]])
                 ckpt = str(ckpts[ckpt_epochs.argsort()[-1]])
+
         hparams = os.path.join(model_path, "hparams.yaml")
-        model = model.load_from_checkpoint(ckpt, hparams_file=hparams, strict=False)
+        
+        # Use CSPDiffusion directly to load from checkpoint
+        model = CSPDiffusion.load_from_checkpoint(ckpt, hparams_file=hparams, strict=False)
+
         try:
             model.lattice_scaler = torch.load(model_path / 'lattice_scaler.pt')
             model.scaler = torch.load(model_path / 'prop_scaler.pt')
-        except:
-            pass
+        except Exception as e:
+            print(f"Warning: {e}")
 
         if load_data:
             datamodule = hydra.utils.instantiate(
