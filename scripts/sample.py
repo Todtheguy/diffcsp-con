@@ -87,9 +87,10 @@ class SampleDataset(Dataset):
         super().__init__()
         self.formula = formula
         self.num_evals = num_evals
-        self.get_structure()
+        self.structure = self.get_structure()  # Dynamically initialize `self.structure`
 
     def get_structure(self):
+        # Parse the formula to create a pymatgen Structure dynamically
         self.composition = chemparse.parse_formula(self.formula)
         chem_list = []
         for elem in self.composition:
@@ -97,17 +98,16 @@ class SampleDataset(Dataset):
             chem_list.extend([chemical_symbols.index(elem)] * num_int)
         self.chem_list = chem_list
 
+        # Dynamically set lattice parameters based on structure details
+        lattice = Lattice.from_parameters(*[5.43, 5.43, 5.43], *[90, 90, 90])  # Placeholder, replace with actual values or config-based parameters
+        structure = Structure(lattice, chem_list, [[0, 0, 0]] * len(chem_list))  # Placeholder for atomic positions
+        return structure
+
     def __len__(self) -> int:
         return self.num_evals
 
-    # def __getitem__(self, index):
-    #     return Data(
-    #         atom_types=torch.LongTensor(self.chem_list),
-    #         num_atoms=len(self.chem_list),
-    #         num_nodes=len(self.chem_list),
-    #     )
-    
     def __getitem__(self, index):
+        # Dynamically fetch lengths and angles from `self.structure.lattice`
         lengths = torch.tensor(self.structure.lattice.lengths)
         angles = torch.tensor(self.structure.lattice.angles)
 
