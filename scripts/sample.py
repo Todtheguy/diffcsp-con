@@ -21,6 +21,13 @@ from p_tqdm import p_map
 
 import os
 
+import yaml
+import torch
+from omegaconf import OmegaConf
+
+import yaml
+from pathlib import Path
+
 chemical_symbols = [
     # 0
     'X',
@@ -93,11 +100,23 @@ class SampleDataset(Dataset):
     def __len__(self) -> int:
         return self.num_evals
 
+    # def __getitem__(self, index):
+    #     return Data(
+    #         atom_types=torch.LongTensor(self.chem_list),
+    #         num_atoms=len(self.chem_list),
+    #         num_nodes=len(self.chem_list),
+    #     )
+    
     def __getitem__(self, index):
+        lengths = torch.tensor(self.structure.lattice.lengths)
+        angles = torch.tensor(self.structure.lattice.angles)
+
         return Data(
             atom_types=torch.LongTensor(self.chem_list),
             num_atoms=len(self.chem_list),
             num_nodes=len(self.chem_list),
+            lengths=lengths,
+            angles=angles
         )
 
 def get_pymatgen(crystal_array):
@@ -114,50 +133,85 @@ def get_pymatgen(crystal_array):
     except:
         return None
 
-def main(args):
-    # load_data if do reconstruction.
-    model_path = Path(args.model_path)
-    model, _, cfg = load_model(
-        model_path, load_data=False)
+# def main(args):
+#     # load_data if do reconstruction.
+#     model_path = Path(args.model_path)
+#     model, _, cfg = load_model(
+#         model_path, load_data=False)
+
+#     if torch.cuda.is_available():
+#         model.to('cuda')
+
+#     tar_dir = os.path.join(args.save_path, args.formula)
+#     os.makedirs(tar_dir, exist_ok=True)
+
+#     print('Evaluate the diffusion model.')
+
+#     test_set = SampleDataset(args.formula, args.num_evals)
+#     test_loader = DataLoader(test_set, batch_size = min(args.batch_size, args.num_evals))
+
+#     start_time = time.time()
+#     (frac_coords, atom_types, lattices, lengths, angles, num_atoms) = diffusion(test_loader, model, args.step_lr)
+
+#     crystal_list = get_crystals_list(frac_coords, atom_types, lengths, angles, num_atoms)
+
+#     strcuture_list = p_map(get_pymatgen, crystal_list)
+
+#     for i,structure in enumerate(strcuture_list):
+#         tar_file = os.path.join(tar_dir, f"{args.formula}_{i+1}.cif")
+#         if structure is not None:
+#             writer = CifWriter(structure)
+#             writer.write_file(tar_file)
+#         else:
+#             print(f"{i+1} Error Structure.")
+
+config_path = Path("config.yaml")
+if config_path.exists():
+    with open(config_path, "r") as file:
+        config = yaml.safe_load(file)
+    args.model_path = config["model"]["model_path"]
+    args.save_path = config["model"]["save_path"]
+    args.formula = config["model"]["formula"]
+    args.num_evals = config["model"].get("num_evals", 1)
+    args.batch_size = config["model"].get("batch_size", 500)
+    args.step_lr = config["model"].get("step_lr", 1e-5)
+else:
+    raise FileNotFoundError("config.yaml not found.")
+
+def main():
+    model_path = config.model.model_path
+    save_path = config.model.save_path
+    model, _, cfg = load_model(model_path, load_data=False)
+
+    model.keep_lattice = True 
+
+    lengths = torch.tensor(config.model.lattice.lengths) if model.keep_lattice else None
+    angles = torch.tensor(config.model.lattice.angles) if model.keep_lattice else None
 
     if torch.cuda.is_available():
         model.to('cuda')
 
-    tar_dir = os.path.join(args.save_path, args.formula)
+    tar_dir = os.path.join(save_path, config.model.formula)
     os.makedirs(tar_dir, exist_ok=True)
 
     print('Evaluate the diffusion model.')
 
-    test_set = SampleDataset(args.formula, args.num_evals)
-    test_loader = DataLoader(test_set, batch_size = min(args.batch_size, args.num_evals))
+    test_set = SampleDataset(config.model.formula, config.model.num_evals)
+    test_loader = DataLoader(test_set, batch_size=min(config.model.batch_size, config.model.num_evals))
 
     start_time = time.time()
-    (frac_coords, atom_types, lattices, lengths, angles, num_atoms) = diffusion(test_loader, model, args.step_lr)
+    (frac_coords, atom_types, lattices, lengths, angles, num_atoms) = diffusion(test_loader, model, config.model.step_lr)
 
     crystal_list = get_crystals_list(frac_coords, atom_types, lengths, angles, num_atoms)
+    structure_list = p_map(get_pymatgen, crystal_list)
 
-    strcuture_list = p_map(get_pymatgen, crystal_list)
-
-    for i,structure in enumerate(strcuture_list):
-        tar_file = os.path.join(tar_dir, f"{args.formula}_{i+1}.cif")
+    for i, structure in enumerate(structure_list):
+        tar_file = os.path.join(tar_dir, f"{config.model.formula}_{i+1}.cif")
         if structure is not None:
             writer = CifWriter(structure)
             writer.write_file(tar_file)
         else:
             print(f"{i+1} Error Structure.")
-      
-
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--model_path', required=True)
-    parser.add_argument('--save_path', required=True)
-    parser.add_argument('--formula', required=True)
-    parser.add_argument('--num_evals', default=1, type=int)
-    parser.add_argument('--batch_size', default=500, type=int)
-    parser.add_argument('--step_lr', default=1e-5, type=float)
-
-    args = parser.parse_args()
-
-
-    main(args)
+    main()
