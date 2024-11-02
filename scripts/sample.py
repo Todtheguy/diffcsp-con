@@ -108,8 +108,8 @@ class SampleDataset(Dataset):
 
     def __getitem__(self, index):
         # Dynamically fetch lengths and angles from `self.structure.lattice`
-        lengths = torch.tensor(self.structure.lattice.lengths)
-        angles = torch.tensor(self.structure.lattice.angles)
+        lengths = torch.tensor(self.structure.lattice.lengths).view(1, -1)  # Convert to 2D
+        angles = torch.tensor(self.structure.lattice.angles).view(1, -1)    # Convert to 2D
 
         return Data(
             atom_types=torch.LongTensor(self.chem_list),
