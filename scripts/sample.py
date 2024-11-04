@@ -178,7 +178,7 @@ def main():
     formula = config["model"]["formula"]
     num_evals = config["model"].get("num_evals", 1)
     batch_size = config["model"].get("batch_size", 500)
-    step_lr = config["model"].get("step_lr", 1e-5)
+    step_lr = float(config["model"].get("step_lr", 1e-5))
 
     model, _, cfg = load_model(model_path, load_data=False)
     model.keep_lattice = True 

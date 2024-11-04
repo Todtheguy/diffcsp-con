@@ -183,11 +183,7 @@ class CSPDiffusion(BaseModule):
             rand_l = torch.randn_like(l_T) if t > 1 else torch.zeros_like(l_T)
             rand_x = torch.randn_like(x_T) if t > 1 else torch.zeros_like(x_T)
 
-            # step_size = step_lr * (sigma_x / self.sigma_scheduler.sigma_begin) ** 2
-            # step_size = step_lr * (sigma_x.item() / self.sigma_scheduler.sigma_begin.item()) ** 2
-            # step_size = step_lr * ((sigma_x / self.sigma_scheduler.sigma_begin) ** 2)
-            # step_size = step_lr * ((sigma_x[0] / self.sigma_scheduler.sigma_begin[0]) ** 2) if sigma_x.ndim > 0 else step_lr * ((sigma_x / self.sigma_scheduler.sigma_begin) ** 2)
-            step_size = step_lr * (float(sigma_x[0]) / float(self.sigma_scheduler.sigma_begin[0])) ** 2 if sigma_x.ndim > 0 else step_lr * ((float(sigma_x) / float(self.sigma_scheduler.sigma_begin)) ** 2)
+            step_size = step_lr * (sigma_x / self.sigma_scheduler.sigma_begin) ** 2
             # step_size = step_lr / (sigma_norm * (self.sigma_scheduler.sigma_begin) ** 2)
             std_x = torch.sqrt(2 * step_size)
 
