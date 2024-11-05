@@ -103,7 +103,7 @@ class SampleDataset(Dataset):
     def __getitem__(self, index):
         lengths = torch.tensor(self.structure.lattice.lengths).view(1, -1) 
         angles = torch.tensor(self.structure.lattice.angles).view(1, -1) 
-        print(f"Sampling with lengths: {lengths}, angles: {angles}")
+        # print(f"Sampling with lengths: {lengths}, angles: {angles}")
 
         return Data(
             atom_types=torch.LongTensor(self.chem_list),
