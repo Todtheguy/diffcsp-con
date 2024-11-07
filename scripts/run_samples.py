@@ -35,4 +35,4 @@ for formula in sample_list:
 
     iteration_times.append(f"Sample {formula}: {end_time - start_time:.2f} seconds")
 
-print("Times for each iteration:", iteration_times)
+# print("Times for each iteration:", iteration_times)
