@@ -30,7 +30,7 @@ warnings.filterwarnings("ignore", message="CrystalNN: cannot locate an appropria
 
 sys.path.append('.')
 
-from eval_utils import (
+from .eval_utils import (
     smact_validity, structure_validity, CompScaler, get_fp_pdist,
     load_config, load_data, get_crystals_list, prop_model_eval, compute_cov)
 

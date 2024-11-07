@@ -6,7 +6,7 @@ from tqdm import tqdm
 from pathlib import Path
 from torch_geometric.data import Data, DataLoader
 from torch.utils.data import Dataset
-from eval_utils import load_model, lattices_to_params_shape, get_crystals_list
+from .eval_utils import load_model, lattices_to_params_shape, get_crystals_list
 
 from pymatgen.core.structure import Structure
 from pymatgen.core.lattice import Lattice
@@ -118,7 +118,7 @@ def get_pymatgen(crystal_array):
     atom_types = crystal_array['atom_types']
     lengths = crystal_array['lengths']
     angles = crystal_array['angles']
-    print(f"Creating pymatgen structure with lengths: {lengths}, angles: {angles}")
+    # print(f"Creating pymatgen structure with lengths: {lengths}, angles: {angles}")
     try:
         structure = Structure(
             lattice=Lattice.from_parameters(
