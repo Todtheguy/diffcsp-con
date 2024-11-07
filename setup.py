@@ -8,7 +8,7 @@ setup(
     description="Description of DiffCSP project",
     long_description=open("README.md").read(),  # Optionally read from README.md
     long_description_content_type="text/markdown",
-    url="https://github.com/akshaydaf/DiffCSP",
+    url="https://github.com/karishmathakrar/DiffCSP_kt",
     packages=find_packages(),  # Automatically finds submodules
     classifiers=[
         "Programming Language :: Python :: 3",
