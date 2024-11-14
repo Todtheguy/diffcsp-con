@@ -156,6 +156,6 @@ def main(model_path, save_path, formula, num_evals, batch_size, step_lr, lengths
             writer.write_file(tar_file)
         else:
             print(f"{i+1} Error Structure.")
-
+    return structure
 if __name__ == '__main__':
     main(model_path, save_path, formula, num_evals, batch_size, step_lr, lengths, angles)
