@@ -129,23 +129,7 @@ def get_pymatgen(crystal_array):
         return None
 
 
-def main():
-    config_path = Path("config.yaml")
-    if config_path.exists():
-        with open(config_path, "r") as file:
-            config = yaml.safe_load(file)
-    else:
-        raise FileNotFoundError("config.yaml not found. Please ensure it's in the script directory.")
-
-    model_path = config["model"]["model_path"]
-    save_path = config["model"]["save_path"]
-    formula = config["model"]["formula"]
-    num_evals = config["model"].get("num_evals", 1)
-    batch_size = config["model"].get("batch_size", 500)
-    step_lr = float(config["model"].get("step_lr", 1e-5))
-    lengths = config["model"]["lattice"]["lengths"]
-    angles = config["model"]["lattice"]["angles"]
-
+def main(model_path, save_path, formula, num_evals, batch_size, step_lr, lengths, angles):
     print("Loaded lattice parameters:", lengths, angles)
 
     model, _, cfg = load_model(model_path, load_data=False)
@@ -174,4 +158,4 @@ def main():
             print(f"{i+1} Error Structure.")
 
 if __name__ == '__main__':
-    main()
+    main(model_path, save_path, formula, num_evals, batch_size, step_lr, lengths, angles)
