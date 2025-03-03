@@ -92,8 +92,8 @@ python scripts/compute_metrics.py --root_path <energy_model_path> --tasks opt
 The main framework of this codebase is build upon [CDVAE](https://github.com/txie-93/cdvae). For the datasets, Perov-5, Carbon-24 and MP-20 are from [CDVAE](https://github.com/txie-93/cdvae), and MPTS-52 is collected from its original [codebase](https://github.com/sparks-baird/mp-time-split).
 
 ### Citation
-
-Please consider citing our work if you find it helpful:
+Credit to 
+Rui Jiao: [jiaor21@mails.tsinghua.edu.cn](mailto:jiaor21@mails.tsinghua.edu.cn)
 ```
 @article{jiao2023crystal,
   title={Crystal structure prediction by joint equivariant diffusion},
@@ -102,9 +102,3 @@ Please consider citing our work if you find it helpful:
   year={2023}
 }
 ```
-
-### Contact
-
-If you have any questions, feel free to reach us at:
-
-Rui Jiao: [jiaor21@mails.tsinghua.edu.cn](mailto:jiaor21@mails.tsinghua.edu.cn)
