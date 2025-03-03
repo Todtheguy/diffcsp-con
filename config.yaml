@@ -1,6 +1,7 @@
+# edit username to reflect your own
 model:
-  model_path: "/home/hice1/kthakrar3/DiffCSP_kt/pretrained_checkpoints"
-  save_path: "/home/hice1/kthakrar3/DiffCSP_kt/sample_output"
+  model_path: "/home/hice1/username/diffcsp_con/pretrained_checkpoints"
+  save_path: "/home/hice1/username/diffcsp_con/sample_output"
   formula: "B2O3"
   num_evals: 100
   batch_size: 500
